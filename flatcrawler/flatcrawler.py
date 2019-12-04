@@ -3,6 +3,7 @@ from python_json_config import Config, ConfigBuilder
 import requests as req
 
 from .WGResult import WGResult
+from .telegram_sender import SenderTelegram
 
 class FlatCrawler(object):
 
@@ -10,10 +11,11 @@ class FlatCrawler(object):
         """Parse the content of the config file"""
         config_path = Path(".").parent.resolve() / "config.json"
         builder = ConfigBuilder()
-        parsed_config = builder.parse_config(str(config_path))
+        config = builder.parse_config(str(config_path))
 
-        self.urls = parsed_config.wggesucht.urls
+        self.urls = config.wggesucht.urls
         self.wg_results = []
+        self.telegram_sender = SenderTelegram(config.telegram.bot_token, config.telegram.receiver_ids)
 
     def run(self):
         """Query, parse and present wggesucht results"""
