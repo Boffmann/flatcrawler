@@ -1,5 +1,6 @@
 {
   "wggesucht": {
+    "baseurl": "https://www.wg-gesucht.de/",
     "urls": [
       "https://www.wg-gesucht.de/wg-zimmer-in-Berlin.8.0.1.0.html?csrf_token=dc532348512ee33f31a5295ef07091d9420e30f7&offer_filter=1&noDeact=1&city_id=8&category=0&rent_type=0&sMin=80"
     ]
