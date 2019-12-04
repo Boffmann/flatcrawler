@@ -31,6 +31,17 @@ class WGResult(object):
                 self.availability_from = list(main_column.find_all('div', {'class': "col-sm-3"}))[0].select("p")[0].select("b")[0].text.strip()
                 self.availability_to = list(main_column.find_all('div', {'class': "col-sm-3"}))[0].select("p")[0].select("b")[1].text.strip()
 
+    def as_string(self):
+        result = "Title: " + self.title + "\n" \
+                  + "Size: " + self.size_of_room + "\n" \
+                  + "Cost: " + self.room_cost + "\n" \
+                  + "Available from: " + self.availability_from + "\n" \
+                  + "Available to: " + self.availability_to + "\n" \
+                  + "Address: " + self.address + "\n" \
+                  + "URL: " + self.url
+        return result
+
+
     @classmethod
     def from_html_response(cls, html: str):
         """Creates a list of WGResults from the results in html"""

@@ -23,3 +23,6 @@ class FlatCrawler(object):
             wg_html_response = req.get(url)
             if wg_html_response.status_code == 200:
                 wg_results = WGResult.from_html_response(wg_html_response.content)
+                for result in wg_results:
+                    self.telegram_sender.sendWGMessage(result)
+
