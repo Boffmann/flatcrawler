@@ -2,7 +2,7 @@ from pathlib import Path
 from python_json_config import Config, ConfigBuilder
 import requests as req
 
-from .WGResult import WGResult
+from .wg_result import WGResult
 from .telegram_sender import SenderTelegram
 
 class FlatCrawler(object):
@@ -24,5 +24,5 @@ class FlatCrawler(object):
             if wg_html_response.status_code == 200:
                 wg_results = WGResult.from_html_response(wg_html_response.content)
                 for result in wg_results:
-                    self.telegram_sender.sendWGMessage(result)
-
+                    print(result.as_string())
+                    # self.telegram_sender.sendWGMessage(result)
