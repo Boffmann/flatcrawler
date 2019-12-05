@@ -30,7 +30,6 @@ class FlatCrawler(object):
             wg_overview_html_response = req.get(filter_url)
             if wg_overview_html_response.status_code == 200:
                 new_advert_urls = self.wg_gesucht_crawler.get_new_adverts(wg_overview_html_response.content)
-                print("Found")
                 return WGResult.parse_from_advert_urls(new_advert_urls, self.wg_gesucht_crawler)
         return []
 
@@ -39,6 +38,6 @@ class FlatCrawler(object):
         wg_results = self.get_new_wg_gesucht_adverts()
         for result in wg_results:
             # To prevent that single adverts are sent twice
-            # if not result.hash in self.advert_hash_list.keys():
-            self.advert_hash_list[result.hash] = result
-            print(result.as_string())
+            if not result.hash in self.advert_hash_list.keys():
+                self.advert_hash_list[result.hash] = result
+                print(result.as_string())
