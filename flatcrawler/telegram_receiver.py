@@ -11,19 +11,39 @@ class ReceiverTelegram(object):
         # Is used so that only the new messages are read
         # Get last message with -1
         self.chat_offset = 0
-        last_message = self.bot.get_updates(offset=-1)
+        try:
+            last_message = self.bot.get_updates(offset=-1)
+        except telegram.error.TimedOut:
+            print("Fatal Error while constructing Telegram Receiver. Get Updated timed out")
+            #TODO raise exception
         if len(last_message) > 0:
             self.chat_offset = last_message[0].update_id + 1
         # self.chat_offset = 0
 
 
     def get_new_messages(self):
+        """Get new messages"""
         messages = []
-        new_updates = self.bot.get_updates(offset=self.chat_offset)
-        # new_updates = self.bot.get_updates()
-        for update in new_updates:
-            messages.append(update.message.text)
+        try:
+            new_updates = self.bot.get_updates(offset=self.chat_offset)
+            for update in new_updates:
+                messages.append(update.message.text)
 
-        if len(new_updates) > 0:
-            self.chat_offset = new_updates[-1].update_id + 1
-        return messages
+            if len(new_updates) > 0:
+                self.chat_offset = new_updates[-1].update_id + 1
+            return messages
+        except telegram.error.TimedOut:
+            print("Error while getting Telegram updates: TimeOut")
+            return []
+
+    def get_new_msg_messages(self):
+        """Get all messages that mean to send a text to a landlord in form of pair(hash, language)"""
+        results = []
+        new_messages = self.get_new_messages()
+        for message in new_messages:
+            msg_words = message.split()
+            if len(msg_words) == 3:
+                print(msg_words[0])
+                if str.upper(msg_words[0]) == "MSG":
+                    results.append((msg_words[1], msg_words[2]))
+        return results
