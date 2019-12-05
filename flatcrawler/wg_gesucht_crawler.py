@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag
 import requests as req
 import re
+import sys
+import traceback
 
 class WGGesuchtCrawler(object):
     """Class to get all information from a wg-gesucht advert side"""
@@ -54,7 +56,6 @@ class WGGesuchtCrawler(object):
             print("Error parsing wg_gesucht advert's title")
             return ""
 
-
     def get_room_size(self):
         if not self.ready():
             return ""
@@ -74,6 +75,7 @@ class WGGesuchtCrawler(object):
             print("Error parsing wg_gesucht advert's costs")
             return ""
 
+
     def get_address(self):
         if not self.ready():
             return ""
@@ -83,14 +85,16 @@ class WGGesuchtCrawler(object):
             print("Error parsing wg_gesucht advert's address")
             return ""
 
+
     def get_available_from(self):
         if not self.ready():
             return ""
         try:
             return list(self.main_column.find_all('div', {'class': "col-sm-3"}))[0].select("p")[0].select("b")[0].text.strip()
         except:
-            print("Error parsing availabiltiy")
+            print("Error parsing availabilty from")
             return ""
+
 
     def get_available_to(self):
         if not self.ready():
@@ -98,5 +102,22 @@ class WGGesuchtCrawler(object):
         try:
             return list(self.main_column.find_all('div', {'class': "col-sm-3"}))[0].select("p")[0].select("b")[1].text.strip()
         except:
-            print("Error parsing availabiltiy")
+            print("Error parsing availabilty to")
+            return ""
+
+    def get_city(self):
+        if not self.ready():
+            return ""
+        try:
+            address = self.get_address()
+            if address.find("Berlin"):
+                return "Berlin"
+            elif address.find("Potsdam"):
+                return "Potsdam"
+            else:
+                return ""
+        except:
+            e = sys.exc_info()[0]
+            track = traceback.format_exc()
+            print("Error parsing city \n" + str(e) + "\n" + track)
             return ""

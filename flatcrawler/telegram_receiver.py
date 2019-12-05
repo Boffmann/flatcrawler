@@ -37,7 +37,7 @@ class ReceiverTelegram(object):
             return []
 
     def get_new_msg_messages(self):
-        """Get all messages that mean to send a text to a landlord in form of pair(hash, language)"""
+        """Get all messages that mean to send a text to a landlord in form of pair(hash, name, language)"""
         results = []
         new_messages = self.get_new_messages()
         for message in new_messages:
