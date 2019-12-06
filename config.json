@@ -1,4 +1,13 @@
 {
+  "firefox": {
+    "bin_path": "/usr/bin/firefox",
+    "options": {
+      "headless": true
+    },
+    "capabilities": {
+      "marionette": true
+    }
+  },
   "wggesucht": {
     "baseurl": "https://www.wg-gesucht.de/",
     "urls": [

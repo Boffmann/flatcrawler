@@ -1,4 +1,3 @@
-import hashlib
 from typing import List
 
 from .wg_gesucht_crawler import WGGesuchtCrawler
