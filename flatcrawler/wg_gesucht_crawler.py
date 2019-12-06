@@ -121,3 +121,15 @@ class WGGesuchtCrawler(object):
             track = traceback.format_exc()
             print("Error parsing city \n" + str(e) + "\n" + track)
             return ""
+
+    def get_advert_nr(self):
+        if not self.ready():
+            return ""
+        try:
+            return self.soup.find('div', {'class': "col-md-8 text-right"}).text.strip()
+        except:
+            e = sys.exc_info()[0]
+            track = traceback.format_exc()
+            print("Error parsing advert Nr \n" + str(e) + "\n" + track)
+            return ""
+

@@ -13,7 +13,9 @@ class WGResult(object):
                  cost: str,
                  address: str,
                  available_from: str,
-                 available_to: str):
+                 available_to: str,
+                 city: str,
+                 advert_nr: str):
         self.url = url
         self.title = title
         self.size_of_room = size
@@ -21,8 +23,8 @@ class WGResult(object):
         self.address = address
         self.availability_from = available_from
         self.availability_to = available_to
-        characteristic_string = str.encode(self.title + self.size_of_room + self.room_cost)
-        self.hash = hashlib.sha256(characteristic_string).hexdigest()[:10]
+        self.city = city
+        self.id = advert_nr
 
     def as_string(self):
         result = "Title: " + self.title + "\n" \
@@ -31,7 +33,7 @@ class WGResult(object):
                   + "Available from: " + self.availability_from + "\n" \
                   + "Available to: " + self.availability_to + "\n" \
                   + "Address: " + self.address + "\n" \
-                  + "Hash: " + self.hash + "\n" \
+                  + "id: " + self.id + "\n" \
                   + "URL: " + self.url
         return result
 
@@ -48,6 +50,9 @@ class WGResult(object):
                                     crawler.get_room_cost(),
                                     crawler.get_address(),
                                     crawler.get_available_from(),
-                                    crawler.get_available_to()))
+                                    crawler.get_available_to(),
+                                    crawler.get_city(),
+                                    crawler.get_advert_nr()))
+
 
         return results
