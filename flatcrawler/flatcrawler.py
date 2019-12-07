@@ -13,9 +13,9 @@ import time
 
 class FlatCrawler(object):
 
-    def __init__(self):
+    def __init__(self, config: str):
         """Parse the content of the config file"""
-        config_path = Path(".").parent.resolve() / "config.json"
+        config_path = Path(".").parent.resolve() / config
         builder = ConfigBuilder()
         self.config = builder.parse_config(str(config_path))
         self.driver = build_driver(self.config)
