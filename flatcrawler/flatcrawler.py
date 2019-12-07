@@ -9,6 +9,7 @@ from .telegram_sender import SenderTelegram
 from .telegram_receiver import ReceiverTelegram
 from .wg_gesucht_crawler import WGGesuchtCrawler
 from .driver import build_driver
+from .wg_gesucht_utils import parse_wg_results_from_advert_urls
 import time
 
 class FlatCrawler(object):
@@ -21,8 +22,8 @@ class FlatCrawler(object):
         self.driver = build_driver(self.config)
 
         self.wg_gesucht_filter_urls = self.config.wggesucht.urls
-        self.telegram_sender = SenderTelegram(config.telegram.bot_token, config.telegram.receiver_ids)
-        self.telegram_receiver = ReceiverTelegram(config.telegram.bot_token, config.telegram.receiver_ids)
+        self.telegram_sender = SenderTelegram(self.config.telegram.bot_token, self.config.telegram.receiver_ids)
+        self.telegram_receiver = ReceiverTelegram(self.config.telegram.bot_token, self.config.telegram.receiver_ids)
         self.wg_gesucht_crawler = WGGesuchtCrawler()
 
 
@@ -32,7 +33,7 @@ class FlatCrawler(object):
             wg_overview_html_response = req.get(filter_url)
             if wg_overview_html_response.status_code == 200:
                 new_advert_urls = self.wg_gesucht_crawler.get_new_adverts(wg_overview_html_response.content)
-                return WGResult.parse_from_advert_urls(new_advert_urls, self.wg_gesucht_crawler)
+                return parse_wg_results_from_advert_urls(new_advert_urls, self.wg_gesucht_crawler)
         return []
 
     def screenshot(self):
