@@ -126,7 +126,7 @@ class WGGesuchtCrawler(object):
         if not self.ready():
             return ""
         try:
-            return self.soup.find('div', {'class': "col-md-8 text-right"}).text.strip()
+            return self.soup.find('div', {'class': "row bottom_contact_box"}).find_all('div', {'class': "col-md-4"})[0].text.strip().split()[5]
         except:
             e = sys.exc_info()[0]
             track = traceback.format_exc()
